@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.example.demo.entity.Books;
 import com.example.demo.exceptions.StorageException;
@@ -65,7 +66,7 @@ public class BooksService {
                     Iterable<CSVRecord> csvRecords = csvParser.getRecords();
                     for (CSVRecord csvRecord : csvRecords) {
 
-                        Books newBooks = new Books(Long.parseLong(csvRecord.get(0)),
+                        Books newBooks = new Books(UUID.randomUUID().toString(),
                                 csvRecord.get(1),
                                 csvRecord.get(2));
 

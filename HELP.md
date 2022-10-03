@@ -47,7 +47,7 @@ https://stackoverflow.com/questions/44755839/equivalents-for-mvn-update-and-mvn-
 
 
 build
-mvn clean install ~= ./gradlew clean build
+mvn clean install ~= ./gradlew clean build -x test
 
 just build
 ./gradlew build

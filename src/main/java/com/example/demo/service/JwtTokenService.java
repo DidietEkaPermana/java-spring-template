@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import com.auth0.jwt.JWT;
@@ -28,9 +30,18 @@ public class JwtTokenService {
     }
 
     public String generateToken(final Users userDetails) {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+
+        LocalDate localDate = LocalDate.now().plusDays(1);
+
+        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+        
+
+
         return JWT.create()
                 .withSubject(userDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
+                .withExpiresAt(date)
+                // .withExpiresAt(new Date((new Date()).getTime() + JWT_TOKEN_VALIDITY))
                 .sign(this.hmac512);
     }
 
