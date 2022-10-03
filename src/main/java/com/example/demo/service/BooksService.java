@@ -40,7 +40,7 @@ public class BooksService {
         return data;
     }
 
-    public Optional<Books> getBookById(long id) {
+    public Optional<Books> getBookById(String id) {
 
         Optional<Books> data = booksRepository.findById(id);
 

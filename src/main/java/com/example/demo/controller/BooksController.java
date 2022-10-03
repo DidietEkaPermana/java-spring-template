@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.example.demo.dto.BooksInput;
 import com.example.demo.dto.BooksOutput;
@@ -32,13 +34,22 @@ public class BooksController {
     private BooksService booksService;
 
     @GetMapping
-	List<Books> all() {
-		return booksService.getBooksListAll();
+	List<BooksOutput> all() {
+        return booksService.getBooksListAll().stream().map((entry) -> extracted(entry)).collect(Collectors.toList());
 	}
 
+    private BooksOutput extracted(Books entry) {
+        return new BooksOutput(entry.getId(), entry.getTitle(), entry.getAuthor(), entry.getLastUpdateDate(), entry.getLastUpdateBy());
+    }
+
     @GetMapping("/{id}")
-	Optional<Books> findById(@PathVariable Long id) {
-		return booksService.getBookById(id);
+	BooksOutput findById(@PathVariable String id) {
+        Optional<Books> books = booksService.getBookById(id);
+
+        if(books.isEmpty())
+            return null;
+        else
+            return new BooksOutput(books.get().getId(), books.get().getTitle(), books.get().getAuthor(), books.get().getLastUpdateDate(), books.get().getLastUpdateBy());
 	}
 
     @PostMapping
